@@ -26,8 +26,9 @@ fun ProfileScreen() {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        TopBar(name = "anrey_nivinskiy")
+        TopBar(name = "andrey_nivinskiy")
         Spacer(modifier = Modifier.height(4.dp))
+        ProfileSection()
     }
 }
 
@@ -86,6 +87,11 @@ fun ProfileSection(
                     .size(100.dp)
                     .weight(3f)
             )
+            Spacer(modifier = Modifier.width(16.dp))
+            StatSection(
+                modifier = Modifier
+                    .weight(7f)
+            )
         }
     }
 
@@ -109,4 +115,40 @@ fun RoundImage(
             .padding(3.dp)
             .clip(CircleShape)
     )
+}
+
+@Composable
+fun StatSection(modifier: Modifier = Modifier) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceAround,
+        modifier = modifier
+    ) {
+        ProfileStat(numberText = "194", text = "Posts")
+        ProfileStat(numberText = "789.3K", text = "Followers")
+        ProfileStat(numberText = "971", text = "Following")
+    }
+}
+
+@Composable
+fun ProfileStat(
+    numberText: String,
+    text: String,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = modifier
+    ) {
+        Text(
+            text = numberText,
+            fontWeight = FontWeight.Bold,
+            fontSize = 20.sp
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(text = text)
+        
+    }
+    
 }
