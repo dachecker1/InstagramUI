@@ -4,16 +4,19 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -32,6 +35,10 @@ fun ProfileScreen() {
             .padding(10.dp))
         Spacer(modifier = Modifier.height(4.dp))
         ProfileSection()
+        Spacer(modifier = Modifier.height(25.dp))
+        ButtonSection(modifier = Modifier
+            .fillMaxWidth())
+        Spacer(modifier = Modifier.height(25.dp))
     }
 }
 
@@ -100,7 +107,7 @@ fun ProfileSection(
             displayName = "Android developer",
             description = "One year of coding experience\n" +
                     "Don't forget to check my apps",
-            url = "https://play.google.com/" ,
+            url = "https://play.google.com/",
             followedBy = listOf("michael_jackson", "miakhalifa", "gordongram"),
             otherCount = 13)
     }
@@ -203,11 +210,11 @@ fun ProfileDescription(
                         pushStyle(boldStyle)
                         append(name)
                         pop()
-                        if (index < followedBy.size - 1){
+                        if (index < followedBy.size - 1) {
                             append(", ")
                         }
                     }
-                    if(otherCount > 2) {
+                    if (otherCount > 2) {
                         append(" and ")
                         pushStyle(boldStyle)
                         append("$otherCount others")
@@ -215,6 +222,73 @@ fun ProfileDescription(
                 },
                 letterSpacing = letterSpacing,
                 lineHeight = lineHeight
+            )
+        }
+    }
+}
+
+@Composable
+fun ButtonSection(
+    modifier: Modifier = Modifier,
+) {
+    val minWidth = 85.dp
+    val height = 30.dp
+    Row(
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        modifier = modifier
+    ) {
+        ActionButton(modifier = Modifier
+            .defaultMinSize(minWidth = minWidth)
+            .height(height),
+            text = "Follow",
+            icon = Icons.Default.KeyboardArrowDown
+        )
+        ActionButton(modifier = Modifier
+            .defaultMinSize(minWidth = minWidth)
+            .height(height),
+            text = "Message"
+        )
+        ActionButton(modifier = Modifier
+            .defaultMinSize(minWidth = minWidth)
+            .height(height),
+            text = "Contact"
+        )
+        ActionButton(modifier = Modifier
+            .height(height),
+            icon = Icons.Default.KeyboardArrowDown
+        )
+    }
+}
+
+@Composable
+fun ActionButton(
+    modifier: Modifier = Modifier,
+    text: String? = null,
+    icon: ImageVector? = null,
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
+        modifier = modifier
+            .border(
+                width = 1.dp,
+                color = Color.LightGray,
+                shape = RoundedCornerShape(5.dp)
+            )
+            .padding(6.dp)
+    ) {
+        if (text != null) {
+            Text(
+                text = text,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 14.sp
+            )
+        }
+        if (icon != null) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = Color.Black
             )
         }
     }
