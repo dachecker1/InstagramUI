@@ -15,6 +15,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,7 +28,8 @@ fun ProfileScreen() {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        TopBar(name = "andrey_nivinskiy")
+        TopBar(name = "andrey_nivinskiy", modifier = Modifier
+            .padding(10.dp))
         Spacer(modifier = Modifier.height(4.dp))
         ProfileSection()
     }
@@ -65,21 +68,21 @@ fun TopBar(
             painter = painterResource(id = R.drawable.ic_dotmenu),
             contentDescription = "Back",
             tint = Color.Black,
-            modifier = Modifier.size(24.dp)
+            modifier = Modifier.size(20.dp)
         )
     }
 }
 
 @Composable
 fun ProfileSection(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(20.dp)
+                .padding(horizontal = 20.dp)
         ) {
             RoundImage(
                 image = painterResource(id = R.drawable.andrey_logo),
@@ -93,14 +96,20 @@ fun ProfileSection(
                     .weight(7f)
             )
         }
+        ProfileDescription(
+            displayName = "Android developer",
+            description = "One year of coding experience\n" +
+                    "Don't forget to check my apps",
+            url = "https://play.google.com/" ,
+            followedBy = listOf("michael_jackson", "miakhalifa", "gordongram"),
+            otherCount = 13)
     }
-
 }
 
 @Composable
 fun RoundImage(
-    image : Painter,
-    modifier: Modifier = Modifier
+    image: Painter,
+    modifier: Modifier = Modifier,
 ) {
     Image(
         painter = image,
@@ -134,7 +143,7 @@ fun StatSection(modifier: Modifier = Modifier) {
 fun ProfileStat(
     numberText: String,
     text: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -148,7 +157,66 @@ fun ProfileStat(
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(text = text)
-        
+
     }
-    
+}
+
+@Composable
+fun ProfileDescription(
+    displayName: String,
+    description: String,
+    url: String,
+    followedBy: List<String>,
+    otherCount: Int,
+) {
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 20.dp)) {
+        val letterSpacing = 0.5.sp
+        val lineHeight = 20.sp
+        Text(
+            text = displayName,
+            fontWeight = FontWeight.Bold,
+            letterSpacing = letterSpacing,
+            lineHeight = lineHeight
+        )
+        Text(
+            text = description,
+            letterSpacing = letterSpacing,
+            lineHeight = lineHeight
+        )
+        Text(
+            text = url,
+            color = Color(0xFF3D3D91),
+            letterSpacing = letterSpacing,
+            lineHeight = lineHeight
+        )
+        if (followedBy.isNotEmpty()) {
+            Text(
+                text = buildAnnotatedString {
+                    val boldStyle = SpanStyle(
+                        color = Color.Black,
+                        fontWeight = FontWeight.Bold
+                    )
+                    append("Followed by ")
+                    followedBy.forEachIndexed { index, name ->
+                        pushStyle(boldStyle)
+                        append(name)
+                        pop()
+                        if (index < followedBy.size - 1){
+                            append(", ")
+                        }
+                    }
+                    if(otherCount > 2) {
+                        append(" and ")
+                        pushStyle(boldStyle)
+                        append("$otherCount others")
+                    }
+                },
+                letterSpacing = letterSpacing,
+                lineHeight = lineHeight
+            )
+        }
+    }
+
 }
