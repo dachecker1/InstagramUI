@@ -12,7 +12,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.plcoding.instagramui.ui.theme.InstagramUITheme
 
 class MainActivity : ComponentActivity() {
-    @OptIn(ExperimentalFoundationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
